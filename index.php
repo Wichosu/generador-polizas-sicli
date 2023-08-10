@@ -1,78 +1,104 @@
+<?php
+  include 'db_conection.php';
+
+  session_start();
+
+  if($_SERVER["REQUEST_METHOD"] == "GET") {
+    $_SESSION['id_ape'] = $_GET['id_ape'];
+  }
+
+  if(!isset($_SESSION['id_ape'])) {
+    $_SESSION['id_ape'] = '2';
+  }
+
+  $id_ape = $_SESSION['id_ape'];
+
+  $sql_apes = "SELECT id FROM apes";
+
+  $result_sql_apes = $conn->query($sql_apes);
+
+  $sql_polizas = "SELECT 
+    id,
+    id_ape,
+    numero,
+    tipo_poliza,
+    subtipo_poliza,
+    descripcion,
+    fecha
+    FROM polizas
+    WHERE id_ape = '$id_ape'";
+
+  $result_sql_polizas = $conn->query($sql_polizas);
+
+  $polizas = [];
+
+  while($poliza = $result_sql_polizas->fetch_assoc()) {
+    array_push($polizas, $poliza);
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Generador de Polizas</title>
+  <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
-  <form action="#" method='POST'>
-    <label>IDENTIFICADOR APE</label>
-    <input type='text' name='ape' />
-    <label>Id APE</label>
-    <input type='text' name='id_ape' />
-    <button>Obtener pdfs</button>
+  <form action='#' method='GET'>
+    <label>ID Ape</label>
+    <select name='id_ape'>
+      <?php 
+        while($ape = $result_sql_apes->fetch_assoc()) {
+          echo 
+          "
+            <option>{$ape['id']}</option>
+          ";
+        }
+      ?>
+    </select>
+    <button>Seleccionar APE</button>
   </form>
-<?php
-  use Dompdf\Dompdf;
-  use Dompdf\Options;
+  <table>
+    <caption>Polizas ID APE <?php echo $_SESSION['id_ape'] ?></caption>
+    <thead>
+      <tr>
+        <td>id</td>
+        <td>id_ape</td>
+        <td>numero</td>
+        <td>tipo_poliza</td>
+        <td>subtipo_poliza</td>
+        <td>descripcion</td>
+        <td>fecha</td>
+        <td>Generar PDF</td>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+        foreach($polizas as $poliza) {
+          $id_poliza = $poliza['id'];
 
-  require_once __DIR__ . '/vendor/autoload.php';
-
-  $server = "localhost";
-  $username = "root";
-  $password = "Osu!W1ch0";
-  $db = "sicli";
-
-  $conn = new mysqli($server, $username, $password, $db);
-
-  if($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-  }
-
-
-  if($_SERVER["REQUEST_METHOD"] == "POST") {
-    session_start();
-
-    $identificador_ape = $_POST['ape'];
-    $id_ape = $_POST['id_ape'];
-
-    $_SESSION['ape'] = $id_ape;
-
-    $sql_folios = "SELECT id FROM folios WHERE identificador = '$identificador_ape'";
-
-    $result_folios = $conn->query($sql_folios);
-
-    while($folio = $result_folios->fetch_assoc()) {
-      $id_folio = $folio['id'];
-      $_SESSION['id_folio'] = $folio['id'];
-
-      $options = new Options();
-      $options->set('isHtml5ParserEnabled', true);
-    
-      $dompdf = new Dompdf($options);
-    
-      ob_start();
-    
-      include 'formatopoliza.php';
-    
-      $htmlContent = ob_get_clean();
-    
-      $dompdf->loadHtml($htmlContent);
-    
-      $dompdf->setPaper('A4', 'portrait');
-    
-      $dompdf->render();
-
-      $sql_nombre = "SELECT doc FROM folios WHERE id = '$id_folio'";
-    
-      $result = $conn->query($sql_nombre);
-
-      $nombre = $result->fetch_assoc();
-
-      $dompdf->stream($nombre['doc']);
-    }
-  }
-?>
+          echo
+          "
+          <tr>
+            <td>{$poliza['id']}</td>
+            <td>{$poliza['id_ape']}</td>
+            <td>{$poliza['numero']}</td>
+            <td>{$poliza['tipo_poliza']}</td>
+            <td>{$poliza['subtipo_poliza']}</td>
+            <td>{$poliza['descripcion']}</td>
+            <td>{$poliza['fecha']}</td>
+            <td>
+              <form action='makePdf.php' method='POST'>
+                <input type='hidden' value='$id_poliza' name='id_poliza' />
+                <button>Generar PDF</button>
+              </form>
+            </td>
+          </tr>
+          ";
+        }
+      ?>
+    </tbody>
+  </table>
 </body>
 </html>

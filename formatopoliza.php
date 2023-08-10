@@ -4,8 +4,8 @@
   
   require_once __DIR__ . '/vendor/autoload.php';
 
-  $APE = '6'; 
-  $POLIZA = '564';
+  $APE = $_SESSION['id_ape']; 
+  $POLIZA = $_SESSION['id_poliza'];
 
   $server = "localhost";
   $username = "root";
@@ -54,24 +54,26 @@
 
   $ape = $result_ape->fetch_assoc();
 
-  function encriptar($folio) {
-    $metodo = "AES-256-CBC";
-    $llave = hash('sha256', 'LEON ES EL HIJO MAS BONITO DEL MUNDO');
-    $iv = substr(hash('sha256', '07.0216171089'), 0, 16);
-
-    $output = openssl_encrypt($folio, $metodo, $llave, 0, $iv);
-
-    $output = base64_encode($output);
-
-    $resto1 = substr($output, 0, 7);
-    $resto2 = substr($output, 7, 5);
-    $resto3 = substr($output, 12, 8);
-    $resto4 = substr($output, 20, 6);
-    $resto5 = substr($output, 26, 6);
-
-    $folio_interno = $resto1 . '-' . $resto2 . '-' . $resto3 . '-' . $resto4 . '-' . $resto5;
-
-    return $folio_interno;
+  if(!function_exists('encriptar')) {
+    function encriptar($folio) {
+      $metodo = "AES-256-CBC";
+      $llave = hash('sha256', 'LEON ES EL HIJO MAS BONITO DEL MUNDO');
+      $iv = substr(hash('sha256', '07.0216171089'), 0, 16);
+  
+      $output = openssl_encrypt($folio, $metodo, $llave, 0, $iv);
+  
+      $output = base64_encode($output);
+  
+      $resto1 = substr($output, 0, 7);
+      $resto2 = substr($output, 7, 5);
+      $resto3 = substr($output, 12, 8);
+      $resto4 = substr($output, 20, 6);
+      $resto5 = substr($output, 26, 6);
+  
+      $folio_interno = $resto1 . '-' . $resto2 . '-' . $resto3 . '-' . $resto4 . '-' . $resto5;
+  
+      return $folio_interno;
+    }
   }
 
   $folio_hash = encriptar($polizas['folio_interno']);
@@ -262,8 +264,6 @@
   $options = new QROptions;
   $options->version = 7;
   $options->imageBased64 = true;
-
-  header('Content-type: image/svg+xml');
 
   $data = 'RFC | '.$fecha_hora.' | 000004F75T9MG21 | '.$folio_hash;
 
