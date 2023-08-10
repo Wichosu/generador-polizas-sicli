@@ -1,0 +1,48 @@
+Poliza
+[Tue Aug  8 18:37:46 2023] {
+  "fecha":"2023-08-04 00:00:00",
+  "descripcion":"Comprobaci\u00f3n de gastos a nombre de Victoria Castillo",
+  "evidencias":"demu_poliza_generada_el_dia_2023-08-07-00-12-31.pdf,GFE9707075U3_CFDI_PVC24082_20230804 (2).xml,GFE9707075U3_CFDI_PVC24082_20230804.docx,GFE9707075U3_CFDI_PVC24082_20230804.pdf,Verificaci\u00f3n GFE9707075U3_CFDI_PVC24082_20230804.pdf",
+  "cargo":"500.00",
+  "abono":"0.00",
+  "clave":"5-1000-200-501-000",
+  "cuenta":"Combustibles lubricantes y aditivos",
+  "numero":"Diario-2",
+  "tipo":"Normal"
+}
+[Tue Aug  8 18:37:46 2023] {
+  "fecha":"2023-08-04 00:00:00",
+  "descripcion":"Comprobaci\u00f3n de gastos a nombre de Victoria Castillo",
+  "evidencias":"demu_poliza_generada_el_dia_2023-08-07-00-12-31.pdf,GFE9707075U3_CFDI_PVC24082_20230804 (2).xml,GFE9707075U3_CFDI_PVC24082_20230804.docx,GFE9707075U3_CFDI_PVC24082_20230804.pdf,Verificaci\u00f3n GFE9707075U3_CFDI_PVC24082_20230804.pdf",
+  "cargo":"0.00",
+  "abono":"500.00",
+  "clave":"1-1000-400-200-002",
+  "cuenta":"Victoria Castillo Jim\u00e9nez",
+  "numero":"Diario-2",
+  "tipo":"Normal"
+}
+Ape
+{
+  "id":"2",
+  "nombre":"Democr\u00e1ticos Unidos por Veracruz",
+  "rfc":"DUV0006237L0",
+  "sufijo":"demu",
+  "presidente":"Victoria Castillo Jim\u00e9nez",
+  "titular":"Jos\u00e9 Luis Arcos Jim\u00e9nez",
+  "telefono":"(229) 132-0435",
+  "email":"org_acuver@hotmail.com",
+  "pagina":"www.duver.org.mx",
+  "direccion":"Paul P. Harris N\u00famero 218 Interior 1",
+  "colonia":"Unidad Veracruzana",
+  "ciudad":"Veracruz",
+  "estado":"Veracruz",
+  "cp":"91710",
+  "mision":"Impulsar la participaci\u00f3n ciudadana en el ejercicio democr\u00e1tico y gubernamental del Estado de Veracruz, para una transformaci\u00f3n en la calidad de vida de los grupos sociales menos favorecidos.",
+  "vision":"Lograr consolidarse como una Organizaci\u00f3n Pol\u00edtica Estatal que fomente la confianza en la ciudadan\u00eda, en sus participaciones pol\u00edticas y gubernamentales, contribuyendo a la estabilidad y la unidad democr\u00e1tica de Veracruz.",
+  "logo":"php9J8kGV.png",
+  "status":"1",
+  "identificador":"00000cV39625653",
+  "sello_digital":"eyJpdiI6InphbCtjTkZGUEp0VnZib0M0WDlueHc9PSIsInZhbHVlIjoibExQZnNaXC9rM2toYytcL0FaTVwvQ2tEZz09IiwibWFjIjoiZWQ1MWIyZjA5YWZmODY1ODFjMjAyMDIyNDQ1M2YzMWJmYjYzZWViOTBmYjhhNWRhMjFmZTk3MDFjYTJiZDdlMCJ9",
+  "created_at":"2021-07-22 06:38:44",
+  "updated_at":"2022-09-19 16:11:31"
+}
