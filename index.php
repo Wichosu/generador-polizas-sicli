@@ -89,7 +89,7 @@
             <td>{$poliza['descripcion']}</td>
             <td>{$poliza['fecha']}</td>
             <td>
-              <form action='makePdf.php' method='POST'>
+              <form action='makePoliza.php' method='POST'>
                 <input type='hidden' value='$id_poliza' name='id_poliza' />
                 <button>Generar PDF</button>
               </form>
