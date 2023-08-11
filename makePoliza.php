@@ -4,7 +4,7 @@
 
   require_once __DIR__ . '/vendor/autoload.php';
 
-  include 'db_conection.php';
+  include 'db_connection.php';
 
   session_start();
 
