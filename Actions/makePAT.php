@@ -1,10 +1,10 @@
 <?php
-  require_once '/home/wicho/Desktop/Encriptador_sicli/vendor/autoload.php';
-
   use Dompdf\Options;
   use Dompdf\Dompdf;
   use Helpers\Pat;
+  use Helpers\Ape;
 
+  require_once '../vendor/autoload.php';
 
   include "../db_connection.php";
 
@@ -13,7 +13,6 @@
   $id_ape = '3';
   $folio_interno = '836680733';
   $id_pat = '6';
-
 
   $sql_data_ape = "SELECT
     sello_digital,
@@ -28,9 +27,17 @@
     WHERE id = '$id_ape'
   ";
 
-  $result_sql_data_ape = $conn->query($sql_data_ape);
+  $result = $conn->query($sql_data_ape)->fetch_object();
 
-  $_SESSION['datos_ape'] = $datos_ape = $result_sql_data_ape->fetch_assoc();
+  $ape = new Ape();
+  $ape->setSelloDigital($result->sello_digital);
+  $ape->setIdentificador($result->identificador);
+  $ape->setSufijo($result->sufijo);
+  $ape->setRfc($result->rfc);
+  $ape->setPresidente($result->presidente);
+  $ape->setNombre($result->nombre);
+  $ape->setMision($result->mision);
+  $ape->setVision($result->vision);
 
   $sql_data_folio = "SELECT
     folio_interno,
@@ -40,7 +47,8 @@
     WHERE folio_interno = '$folio_interno' 
   ";
 
-  $_SESSION['folio'] = $folio = $conn->query($sql_data_folio)->fetch_assoc();
+  $result = $conn->query($sql_data_folio)->fetch_object();
+
 
   $sql_data_pat = "SELECT
     id,
@@ -51,8 +59,6 @@
     FROM datospats
     WHERE id = '$id_pat'
   ";
-
-  $_SESSION['datos_pat'] = $datos_pat = $conn->query($sql_data_pat)->fetch_assoc();
 
   $sql_lineas = "SELECT DISTINCT
     lineas.id as linea_id,
@@ -93,22 +99,21 @@
     }
   }
 
-  $_SESSION['array_lineas'] = $array_lineas_filtrado;
+  $pat_object = $conn->query($sql_data_pat)->fetch_object();
+  $folio_object = $conn->query($sql_data_folio)->fetch_object();
 
   $pat = new Pat(
-    $conn->query($sql_data_ape)->fetch_object(),
-    $conn->query($sql_data_pat)->fetch_object(),
+    $ape_object,
+    $pat_object,
     $array_lineas_filtrado,
-    $conn->query($sql_data_folio)->fetch_object()
+    $folio_object
   );
 
   $_SESSION['pat'] = $pat;
 
-  error_log(json_encode($pat));
-
   ob_start();
 
-  include "../patformat.php";
+  include "../patFormat.php";
 
   $htmlContent = ob_get_clean();
 

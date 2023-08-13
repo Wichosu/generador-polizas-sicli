@@ -1,8 +1,8 @@
 <?php
   namespace Helpers;
 
-  if(!function_exists('encriptar')) {
-    function encriptar($folio) {
+  if(!function_exists('encrypt')) {
+    function encrypt($folio) {
       $metodo = "AES-256-CBC";
       $llave = hash('sha256', 'LEON ES EL HIJO MAS BONITO DEL MUNDO');
       $iv = substr(hash('sha256', '07.0216171089'), 0, 16);
