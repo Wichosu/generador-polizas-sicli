@@ -1,4 +1,6 @@
 <?php
+  namespace Helpers;
+
   if(!function_exists('encriptar')) {
     function encriptar($folio) {
       $metodo = "AES-256-CBC";

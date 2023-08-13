@@ -6,6 +6,11 @@
         "php": "*",
         "tecnickcom/tcpdf": "^6.6"
     },
+    "autoload": {
+        "psr-4": {
+            "Helpers\\": ""
+        }
+    },
     "authors": [
         {
             "name": "Wicho",
