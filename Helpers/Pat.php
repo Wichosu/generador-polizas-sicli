@@ -1,21 +1,46 @@
 <?php
 
 namespace Helpers;
+
 class Pat {
-  public object $ape_data;
-  public object $pat_data;
-  public array $lines;
-  public object $folio;
+  public int $id;
+  public int $id_ape;
+  public string $nombre;
+  public string $objetivos;
+  public string $metas;
+  public string $justificacion;
 
-  function __construct(object $ape_data, object $pat_data, array $lines, object $folio) {
-    $this->ape_data = $ape_data;
-    $this->pat_data = $pat_data;
-    $this->lines = $lines;
-    $this->folio = $folio;
+  public function __construct() {
+
   }
 
-  public function getEncriptedFolio() {
-    return encrypt($this->folio->folio_interno);
+  public function setId(int $id): self {
+    $this->id = $id;
+    return $this;
   }
 
+  public function setIdApe(int $id_ape): self {
+    $this->id_ape = $id_ape;
+    return $this;
+  }
+
+  public function setNombre(string $nombre): self {
+    $this->nombre = $nombre;
+    return $this;
+  }
+
+  public function setObjetivos(string $objetivos): self {
+    $this->objetivos = $objetivos;
+    return $this;
+  }
+
+  public function setMetas(string $metas): self {
+    $this->metas = $metas;
+    return $this;
+  }
+
+  public function setJustificacion(string $justificacion): self {
+    $this->justificacion = $justificacion;
+    return $this;
+  }
 }

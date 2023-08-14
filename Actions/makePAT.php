@@ -1,8 +1,10 @@
 <?php
   use Dompdf\Options;
   use Dompdf\Dompdf;
-  use Helpers\Pat;
+  use Helpers\PatFile;
   use Helpers\Ape;
+  use Helpers\Folio;
+  use Helpers\Pat;
 
   require_once '../vendor/autoload.php';
 
@@ -49,6 +51,10 @@
 
   $result = $conn->query($sql_data_folio)->fetch_object();
 
+  $folio = new Folio();
+  $folio->setFolioInterno($result->folio_interno);
+  $folio->setFechaHora($result->fecha_hora);
+  $folio->setDoc($result->doc);
 
   $sql_data_pat = "SELECT
     id,
@@ -59,6 +65,15 @@
     FROM datospats
     WHERE id = '$id_pat'
   ";
+
+  $result = $conn->query($sql_data_pat)->fetch_object();
+
+  $pat = new Pat();
+  $pat->setId($result->id);
+  $pat->setNombre($result->nombre);
+  $pat->setObjetivos($result->objetivos);
+  $pat->setJustificacion($result->justificacion);
+  $pat->setMetas($result->metas);
 
   $sql_lineas = "SELECT DISTINCT
     lineas.id as linea_id,
@@ -99,17 +114,14 @@
     }
   }
 
-  $pat_object = $conn->query($sql_data_pat)->fetch_object();
-  $folio_object = $conn->query($sql_data_folio)->fetch_object();
-
-  $pat = new Pat(
-    $ape_object,
-    $pat_object,
+  $pat_file = new PatFile(
+    $ape,
+    $pat,
     $array_lineas_filtrado,
-    $folio_object
+    $folio
   );
 
-  $_SESSION['pat'] = $pat;
+  $_SESSION['pat_file'] = $pat_file;
 
   ob_start();
 
