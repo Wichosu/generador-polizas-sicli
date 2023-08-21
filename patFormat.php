@@ -1,9 +1,3 @@
-<?php
-  use chillerlan\QRCode\QROptions;
-  use chillerlan\QRCode\QRCode;
-  
-  require_once __DIR__ . '/vendor/autoload.php';
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -47,34 +41,34 @@
   <div style="border-left: 1px solid #000; border-right: 1px solid #000; text-align: right; padding-right: 2px;"><strong>EJERCICIO: <?php echo date("Y") ?></strong></div>  
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; background-color: #ccc; font-size: 14px; font-weight: bold;">NOMBRE DE LA ASOCIACIÓN POLÍTICA ESTATAL</div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px;">
-    <?php echo $_SESSION['datos_ape']['nombre'] ?>
+    <?php echo $pat_file->ape->nombre ?>
   </div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; background-color: #ccc; font-size: 14px; font-weight: bold;">NOMBRE DEL PROGRAMA</div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px;">
-    <?php echo $_SESSION['datos_pat']['nombre'] ?> 
+    <?php echo $pat_file->pat->nombre ?>
   </div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; background-color: #ccc; font-size: 14px; font-weight: bold;">MISIÓN</div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px;">
-    <?php echo $_SESSION['datos_ape']['mision'] ?>
+    <?php echo $pat_file->ape->mision ?>
   </div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; background-color: #ccc; font-size: 14px; font-weight: bold;">VISIÓN</div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px;">
-    <?php echo $_SESSION['datos_ape']['vision'] ?>
+    <?php echo $pat_file->ape->vision ?>
   </div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; background-color: #ccc; font-size: 14px; font-weight: bold;">OBJETIVOS</div>
   <?php
-    foreach(explode('@', $_SESSION['datos_pat']['objetivos']) as $row) {
+    foreach(explode('@', $pat_file->pat->objetivos) as $objetivo) {
       echo
       "
         <div style='text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px;'>
-          $row 
+          $objetivo 
         </div>
       ";
     }
   ?>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; background-color: #ccc; font-size: 14px; font-weight: bold;">METAS</div>
   <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px;">
-    <?php echo $_SESSION['datos_pat']['metas'] ?>
+    <?php echo $pat_file->pat->metas ?>
   </div>
 <table style="width: 100%;">
 <thead>
@@ -90,8 +84,7 @@
   </tr>
 </thead>
   <?php
-    foreach($_SESSION['array_lineas'] as $linea) {
-
+    foreach($pat_file->lines as $linea) {
       $inicio_linea_format = date('d/m/Y', strtotime($linea['inicioLinea']));
       $final_linea_format = date('d/m/Y', strtotime($linea['finalLinea']));
       $monto = number_format($linea['monto'], 2);
@@ -113,7 +106,7 @@
 <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px;">&nbsp;</div>
 <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; background-color: #ccc; font-size: 14px; font-weight: bold;">JUSTIFICACIÓN</div>
 <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px;">
-  <?php echo $_SESSION['datos_pat']['justificacion'] ?>
+  <?php echo $pat_file->pat->justificacion ?>
 </div>
 <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; background-color: #ccc; font-size: 14px; font-weight: bold;">NOMBRE Y FIRMA DEL PRESIDENTE DE LA ASOCIACIÓN POLÍTICA</div>
 <div style="text-align: center; padding-top: 0px; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; font-size: 14px; height: 100px;">FIRMA</div>
@@ -123,7 +116,7 @@
 <div style="page-break-after:always;"></div>
 <div style="text-align: center; padding-top: 0px;  font-size: 16px;">CRONOGRAMA DEL PROGRAMA ANUAL DE TRABAJO "Anexo A"</div>
 <div style="text-align: center; padding-top: 0px;  font-size: 14px; font-weight: bold;">
-  <?php echo $_SESSION['datos_ape']['nombre'] ?>
+  <?php echo $pat_file->ape->nombre ?>
 </div>
 <div style="text-align: right; padding-right: 2px; font-size: 14px;">EJERCICIO: <strong><?php echo date("Y") ?></strong></div>
 <table style="width: 100%;">
@@ -139,7 +132,7 @@
   </tr>
 </thead>
   <?php
-    foreach($_SESSION['array_lineas'] as $linea) {
+    foreach($pat_file->lines as $linea) {
       $inicio_linea = date('d/m/Y', strtotime($linea['inicioLinea']));
       $final_linea = date('d/m/Y', strtotime($linea['finalLinea']));
 
@@ -160,30 +153,22 @@
 <hr size="3" style="width: 70%">
 <div style="text-align: center; padding-top: 0px; font-size: 12px;">NOMBRE Y FIRMA DEL PRESIDENTE DE LA ASOCIACIÓN POLÍTICA</div>
 <div style="text-align: center; padding-top: 0px; font-size: 12px; font-weight: bold;">
-  <?php echo $_SESSION['datos_ape']['presidente'] ?>
+  <?php echo $pat_file->ape->presidente ?>
 </div>
 <div style="page-break-after:always;"></div>
 <div style="width:100%">
   <!--Inicio del sello digital-->
   <div><h1>SELLO DIGITAL GENERADO POR EL SICLI</h1></div>
-      <div style="text-align: left;"><strong>REVISADO POR: </strong><?php echo $_SESSION['datos_ape']['presidente'] ?></div>
-      <div style="text-align: left;"><strong>RFC: </strong><?php echo $_SESSION['datos_ape']['rfc'] ?></div>
-      <div style="text-align: left;"><strong>FECHA Y HORA DE EMISIÓN: </strong><?php echo $_SESSION['folio']['fecha_hora'] ?></div>
-      <div style="text-align: left;"><strong>IDENTIFICADOR ÚNICO DEL EMISOR: </strong><?php echo $_SESSION['datos_ape']['identificador'] ?></div>
-      <div style="text-align: left; overflow: hidden;text-overflow: ellipsis;"><strong>SELLO DIGITAL DE LA APE: </strong><?php echo $_SESSION['datos_ape']['sello_digital'] ?></div>
-      <div style="text-align: left;"><strong>FOLIO INTERNO: </strong><?php echo $_SESSION['folio_encriptado'] ?></div>
+      <div style="text-align: left;"><strong>REVISADO POR: </strong><?php echo $pat_file->ape->presidente ?></div>
+      <div style="text-align: left;"><strong>RFC: </strong><?php echo $pat_file->ape->rfc ?></div>
+      <div style="text-align: left;"><strong>FECHA Y HORA DE EMISIÓN: </strong><?php echo $pat_file->folio->fecha_hora ?></div>
+      <div style="text-align: left;"><strong>IDENTIFICADOR ÚNICO DEL EMISOR: </strong><?php echo $pat_file->ape->identificador ?></div>
+      <div style="text-align: left; overflow: hidden;text-overflow: ellipsis;"><strong>SELLO DIGITAL DE LA APE: </strong><?php echo $pat_file->ape->sello_digital ?></div>
+      <div style="text-align: left;"><strong>FOLIO INTERNO: </strong><?php echo $pat_file->getEncriptedFolio() ?></div>
       <div colspan="2" style="text-align: left;"><strong>Haz clic en el siguiente link para revisar la integridad de este documento: </strong><br><span style="color: blue;">http://sistemas.oplever.org.mx/sicli/verificador</span></div>
   </div>
 <?php 
-  $options = new QROptions;
-  $options->version = 7;
-  $options->imageBased64 = true;
-
-  $data = 'RFC | '.$_SESSION['folio']['fecha_hora'].' | 000004F75T9MG21 | '.$_SESSION['folio_encriptado'];
-
-  $qr_code = (new QRCode)->render($data);
-
-  echo '<img src="'.$qr_code.'" alt="QR Code" />';
+  echo '<img src="'.$pat_file->getQrCode().'" alt="QR Code" />';
 ?>
 <div class="footer">
   <span class="page-number" style="font-size: 10px;">Página </span>
